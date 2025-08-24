@@ -2,8 +2,10 @@
 #include <stdio.h>
 #include "hashtable.h"
 
-int hash(void *key) {
-    return *(int*)key % HT_CAPACITY;
+#define HT_CAPACITY 16
+
+int hash(void *key, int capacity) {
+    return *(int*)key % capacity;
 }
 
 int equals(void *key1, void *key2) {
@@ -11,14 +13,17 @@ int equals(void *key1, void *key2) {
 }
 
 int main() {
-    hash_table_t *hash_table = ht_init(hash, equals);
+    hash_table_t *hash_table = ht_init(HT_CAPACITY, hash, equals);
+    int keys[100];
+    int values[100];
 
-    int key = 0;
-    int value = 99;
-    ht_insert(hash_table, &key, &value);
+    for (int i = 0; i < 50; i++) {
+        keys[i] = i;
+        values[i] = i * 2;
 
-    void *result = ht_get(hash_table, &key);
-    printf("Value of key: %i", *(int*)result);
+        printf("INSERT %i, %i\n", keys[i], values[i]);
+        ht_insert(hash_table, &keys[i], &values[i]);
+    }
 
     return 0;
 }
