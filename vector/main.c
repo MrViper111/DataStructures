@@ -34,15 +34,16 @@ int main() {
     }
     printf("\n");
 
-    // int index = 2;
-    // int *value = malloc(sizeof(int));
-    // *value = 0;
-    // printf("Inserting into index %i...", index);
-    // vec_insert(vec, index, value);
-    // for (int i = 0; i < vec->size; i++) {
-    //     printf("%d ", *(int*)vec_at(vec, i));
-    // }
-    // printf("\n");
+    printf("im inserting\n");
+    int index = 2;
+    int *value = malloc(sizeof(int));
+    *value = 0;
+    printf("Inserting into index %i...", index);
+    vec_insert(vec, index, value);
+    for (int i = 0; i < vec->size; i++) {
+        printf("%d ", *(int*)vec_at(vec, i));
+    }
+    printf("\n");
 
     return 0;
 }
