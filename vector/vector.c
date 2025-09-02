@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "vector.h"
 
 vector_t* vec_init(int capacity) {
@@ -27,6 +28,10 @@ void* vec_at(vector_t *vec, int index) {
         return NULL;
     }
 
+    return vec->elements[index];
+}
+
+void* vec_unsafe_at(vector_t *vec, int index) {
     return vec->elements[index];
 }
 
@@ -102,25 +107,26 @@ void vec_append(vector_t *vec1, vector_t *vec2) {
     vec2->size = 0;
 }
 
-// void vec_insert(vector_t *vec, int index, void *element) {
-//     if (vec_empty(vec)) {
-//         vec_push(vec, element);
-//         return;
-//     }
+void vec_insert(vector_t *vec, int index, void *element) {
+    int size = vec->size;
 
-//     int size = vec->size;
-//     if (size + 1 > vec->capacity) {
-//         vec_increase_capacity(vec);
-//     }
+    if (index >= size) {
+        return;
+    }
 
-//     for (int i = size - 1; i >= index; i--) {
-//         void *current = vec_at(vec, i);
-//         void *next = vec_at(vec, i + 1);
+    if (vec_empty(vec)) {
+        vec_push(vec, element);
+        return;
+    }
 
-//         next = current;
-//     }
+    if (size + 1 > vec->capacity) {
+        vec_increase_capacity(vec);
+    }
 
-//     void *new_element = vec_at(vec, index);
-//     new_element = element;
-//     vec->size++;
-// }
+    for (int i = size - 1; i >= index; i--) {
+        vec->elements[i + 1] = vec->elements[i];
+    }
+
+    vec->elements[index] = element;
+    vec->size++;
+}
